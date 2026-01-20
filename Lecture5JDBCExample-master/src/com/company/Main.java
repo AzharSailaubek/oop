@@ -4,7 +4,6 @@ import com.company.controllers.UserController;
 import com.company.controllers.interfaces.IUserController;
 import com.company.data.PostgresDB;
 import com.company.data.interfaces.IDB;
-import com.company.repositories.UserRepository;
 import com.company.repositories.interfaces.IUserRepository;
 
 public class Main {
