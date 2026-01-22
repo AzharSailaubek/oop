@@ -18,12 +18,14 @@ public class Main {
                 "pharmacy"
         );
 
-        IUserRepository repo = new UserRepository(db);
-        IUserController controller = new UserController(repo);
+        MedicineRepository medRepo = new MedicineRepository(db);
+        SaleRepository saleRepo = new SaleRepository(db);
+        com.company.controllers.PharmacyController controller = new com.company.controllers.PharmacyController(medRepo, saleRepo);
 
-        MyApplication app = new MyApplication(controller);
+        com.company.MyApplication app = new com.company.MyApplication(controller);
         app.start();
 
         db.close();
     }
 }
+
