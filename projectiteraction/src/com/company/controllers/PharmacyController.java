@@ -37,3 +37,23 @@ public class PharmacyController {
         }
         return sb.toString();
     }
+
+    @Override
+    public String sellMedicine(String medicineName, int quantity, boolean hasPrescription) {
+        Medicine medicine = medicineRepo.getMedicineByName(medicineName);
+        if (medicine == null) return "Medicine not found!";
+
+        if (medicine.isPrescriptionRequired() && !hasPrescription)
+            return "This medicine requires a prescription!";
+
+        if (medicine.getQuantity() < quantity)
+            return "Not enough medicine in stock!";
+
+        medicineRepo.updateQuantity(medicine.getId(), medicine.getQuantity() - quantity);
+
+        saleRepo.createSale(new Sale(medicine.getId(), quantity));
+
+        double total = medicine.getPrice() * quantity;
+        return "Sold " + medicine.getName() + " | Total price: " + total;
+    }
+}
