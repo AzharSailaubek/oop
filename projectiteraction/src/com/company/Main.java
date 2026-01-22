@@ -12,11 +12,11 @@ import com.company.repositories.interfaces.ISaleRepository;
 public class Main {
     public static void main(String[] args) {
         IDB db = new PostgresDB(
-        String url = System.getenv("DB_URL");
-        String user = System.getenv("DB_USER");
-
-        String password = System.getenv("DB_PASSWORD");
-        String dbName = System.getenv("DB_NAME");
+                "jdbc:postgresql://localhost:5433",
+                "postgres",
+                "0000",
+                "pharmacy"
+        );
 
         IUserRepository repo = new UserRepository(db);
         IUserController controller = new UserController(repo);
