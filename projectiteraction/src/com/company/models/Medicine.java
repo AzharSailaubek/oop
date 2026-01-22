@@ -43,6 +43,17 @@ public class Medicine {
     }
 
     public void setQuantity(int quantity) {
+
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return id + " | " + name +
+                " | price: " + price +
+                " | qty: " + quantity +
+                " | prescription: " +
+                (requiresPrescription ? "yes" : "no");
+    }
+}
 
