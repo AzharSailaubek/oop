@@ -4,21 +4,21 @@ public class Medicine {
     private int id;
     private String name;
     private double price;
+    private String manufacturer;
     private int quantity;
-    private boolean requiresPrescription;
+    private boolean prescriptionRequired;
 
     public Medicine() {
-
     }
 
-    public Medicine(String name, double price, int quantity, boolean requiresPrescription) {
+    public Medicine(String name, double price, String manufacturer,  int quantity, boolean prescriptionRequired) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.requiresPrescription = requiresPrescription;
+        this.prescriptionRequired = prescriptionRequired;
     }
-    public Medicine(int id, String name, double price, int quantity, boolean requiresPrescription) {
-        this(name, price, quantity, requiresPrescription);
+    public Medicine(int id, String name, double price,String manufacturer, int quantity, boolean prescriptionRequired) {
+        this(name, price,manufacturer, quantity, prescriptionRequired);
         this.id = id;
     }
 
@@ -34,26 +34,30 @@ public class Medicine {
         return price;
     }
 
+    public String getManufacturer() { return manufacturer; }
+
     public int getQuantity() {
         return quantity;
     }
 
-    public boolean isRequiresPrescription() {
-        return requiresPrescription;
+    public boolean isPrescriptionRequired() {
+        return prescriptionRequired;
     }
 
-    public void setQuantity(int quantity) {
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setPrice(double price) { this.price = price; }
+    public void setManufacturer(String manufacturer) { this.manufacturer = manufacturer; }
+    public void setQuantity(int quantity) {this.quantity = quantity;}
+    public void setPrescriptionRequired(boolean prescriptionRequired) { this.prescriptionRequired = prescriptionRequired; }
 
-        this.quantity = quantity;
-    }
-    
     @Override
     public String toString() {
         return id + " | " + name +
                 " | price: " + price +
                 " | qty: " + quantity +
                 " | prescription: " +
-                (requiresPrescription ? "yes" : "no");
+                (prescriptionRequired ? "yes" : "no");
     }
 }
 

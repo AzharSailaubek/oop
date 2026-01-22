@@ -1,5 +1,6 @@
 package com.company.controllers;
 
+import com.company.controllers.interfaces.IPharmacyController;
 import com.company.models.Medicine;
 import com.company.models.Sale;
 import com.company.repositories.interfaces.IMedicineRepository;
@@ -7,7 +8,7 @@ import com.company.repositories.interfaces.ISaleRepository;
 
 import java.util.List;
 
-public class PharmacyController {
+public class PharmacyController implements IPharmacyController  {
 
     private final IMedicineRepository medicineRepo;
     private final ISaleRepository saleRepo;
@@ -18,7 +19,7 @@ public class PharmacyController {
     }
 
     @Override
-    public String addMedicine(String name, double price, String manufacturer, int quantity, boolean is Prescription){
+    public String addMedicine(String name, double price, String manufacturer, int quantity, boolean isPrescription){
 
         Medicine medicine = new Medicine(name, price, manufacturer, quantity, isPrescription);
         boolean created = medicineRepo.createMedicine(medicine);
@@ -51,9 +52,9 @@ public class PharmacyController {
 
         medicineRepo.updateQuantity(medicine.getId(), medicine.getQuantity() - quantity);
 
-        saleRepo.createSale(new Sale(medicine.getId(), quantity));
-
         double total = medicine.getPrice() * quantity;
+        saleRepo.createSale(new Sale(medicine.getId(), quantity, total));
+
         return "Sold " + medicine.getName() + " | Total price: " + total;
     }
 }

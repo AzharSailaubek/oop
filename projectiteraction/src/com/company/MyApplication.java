@@ -5,7 +5,7 @@ import com.company.controllers.interfaces.IPharmacyController;
 import java.util.Scanner;
 
 public class MyApplication {
-    private final IPhatrmacyController controller;
+    private final IPharmacyController controller;
     private final Scanner scanner = new Scanner(System.in);
 
     public MyApplication(IPharmacyController controller) {
@@ -45,6 +45,9 @@ public class MyApplication {
         System.out.print("Price: ");
         double price = scanner.nextDouble();
 
+        System.out.print("Manufacturer: ");
+        String manufacturer = scanner.next();
+
         System.out.print("Quantity: ");
         int quantity = scanner.nextInt();
 
@@ -53,7 +56,7 @@ public class MyApplication {
                 scanner.next().equalsIgnoreCase("yes");
 
         System.out.println(
-                controller.addMedicine(name, price, quantity, prescription)
+                controller.addMedicine(name, price, manufacturer, quantity, prescription)
         );
     }
 
@@ -69,7 +72,7 @@ public class MyApplication {
                 scanner.next().equalsIgnoreCase("yes");
 
         System.out.println(
-                controller.sellMedicineByName(name, qty, hasPrescription)
+                controller.sellMedicine(name, qty, hasPrescription)
         );
     }
 }
