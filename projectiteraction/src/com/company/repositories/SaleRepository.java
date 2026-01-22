@@ -20,3 +20,14 @@ public class SaleRepository implements ISaleRepository {
         try (Connection con = db.getConnection()) {
             String sql = "INSERT INTO sales(medicine_id, quantity, sale_date) VALUES (?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, s.getMedicineId());
+            st.setInt(2, s.getQuantity());
+            st.setDate(3, java.sql.Date.valueOf(s.getSaleDate()));
+            st.execute();
+            return true;        } ca
+        tch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+            return false;
+        }
+    }
+}
