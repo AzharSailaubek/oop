@@ -8,3 +8,13 @@ public class Sale {
     private int quantity;
     private double totalPrice;
     private LocalDate saleDate;
+    public Sale(int medicineId, int quantity, double totalPrice) {
+        this.medicineId = medicineId;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.saleDate = LocalDate.now();
+    }
+
+    public int getMedicineId() {
+        return medicineId;
+    }
