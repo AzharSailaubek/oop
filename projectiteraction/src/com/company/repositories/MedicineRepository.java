@@ -32,3 +32,48 @@ public class MedicineRepository implements IMedicineRepository {
             return false;
         }
     }
+    @Override
+    public Medicine getMedicine(int id) {
+        try (Connection con = db.getConnection()) {
+            String sql = "SELECT id,name,price,manufacturer,quantity,prescription_required FROM medicines WHERE id=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new Medicine(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getString("manufacturer"),
+                        rs.getInt("quantity"),
+                        rs.getBoolean("prescription_required")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Medicine getMedicineByName(String name) {
+        try (Connection con = db.getConnection()) {
+            String sql = "SELECT id,name,price,manufacturer,quantity,prescription_required FROM medicines WHERE name=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new Medicine(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getString("manufacturer"),
+                        rs.getInt("quantity"),
+                        rs.getBoolean("prescription_required")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
+        return null;
+    }
