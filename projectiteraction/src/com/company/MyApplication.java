@@ -37,4 +37,21 @@ public class MyApplication {
             }
         }
     }
-    
+    private void addMedicineMenu() {
+        System.out.print("Name: ");
+        String name = scanner.next();
+
+        System.out.print("Price: ");
+        double price = scanner.nextDouble();
+
+        System.out.print("Quantity: ");
+        int quantity = scanner.nextInt();
+
+        System.out.print("Requires prescription? (yes/no): ");
+        boolean prescription =
+                scanner.next().equalsIgnoreCase("yes");
+
+        System.out.println(
+                controller.addMedicine(name, price, quantity, prescription)
+        );
+    }
