@@ -40,3 +40,15 @@ public class PostgresDB implements IDB {
             return null;
         }
     }
+
+    @Override
+    public void close() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Postgres close error: " + e.getMessage());
+        }
+    }
+}
