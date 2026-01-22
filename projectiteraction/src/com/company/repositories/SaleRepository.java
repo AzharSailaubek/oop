@@ -24,8 +24,8 @@ public class SaleRepository implements ISaleRepository {
             st.setInt(2, s.getQuantity());
             st.setDate(3, java.sql.Date.valueOf(s.getSaleDate()));
             st.execute();
-            return true;        } ca
-        tch (SQLException e) {
+            return true;
+        } catch (SQLException e) {
             System.out.println("SQL error: " + e.getMessage());
             return false;
         }

@@ -32,6 +32,7 @@ public class MedicineRepository implements IMedicineRepository {
             return false;
         }
     }
+
     @Override
     public Medicine getMedicine(int id) {
         try (Connection con = db.getConnection()) {
@@ -77,3 +78,42 @@ public class MedicineRepository implements IMedicineRepository {
         }
         return null;
     }
+
+    @Override
+    public List<Medicine> getAllMedicines() {
+        List<Medicine> list = new ArrayList<>();
+        try (Connection con = db.getConnection()) {
+            String sql = "SELECT id,name,price,manufacturer,quantity,prescription_required FROM medicines";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                list.add(new Medicine(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getString("manufacturer"),
+                        rs.getInt("quantity"),
+                        rs.getBoolean("prescription_required")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public boolean updateQuantity(int id, int quantity) {
+        try (Connection con = db.getConnection()) {
+            String sql = "UPDATE medicines SET quantity=? WHERE id=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, quantity);
+            st.setInt(2, id);
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+            return false;
+        }
+    }
+}
