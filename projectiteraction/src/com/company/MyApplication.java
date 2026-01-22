@@ -37,6 +37,7 @@ public class MyApplication {
             }
         }
     }
+
     private void addMedicineMenu() {
         System.out.print("Name: ");
         String name = scanner.next();
@@ -55,3 +56,20 @@ public class MyApplication {
                 controller.addMedicine(name, price, quantity, prescription)
         );
     }
+
+    private void sellMedicineMenu() {
+        System.out.print("Medicine name: ");
+        String name = scanner.next();
+
+        System.out.print("Quantity: ");
+        int qty = scanner.nextInt();
+
+        System.out.print("Do you have a prescription? (yes/no): ");
+        boolean hasPrescription =
+                scanner.next().equalsIgnoreCase("yes");
+
+        System.out.println(
+                controller.sellMedicineByName(name, qty, hasPrescription)
+        );
+    }
+}
