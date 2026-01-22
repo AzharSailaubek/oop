@@ -8,6 +8,7 @@ public class Sale {
     private int quantity;
     private double totalPrice;
     private LocalDate saleDate;
+
     public Sale(int medicineId, int quantity, double totalPrice) {
         this.medicineId = medicineId;
         this.quantity = quantity;
@@ -18,3 +19,16 @@ public class Sale {
     public int getMedicineId() {
         return medicineId;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public LocalDate getSaleDate() {
+        return saleDate;
+    }
+}

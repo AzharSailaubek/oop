@@ -46,7 +46,7 @@ public class Medicine {
 
         this.quantity = quantity;
     }
-
+    
     @Override
     public String toString() {
         return id + " | " + name +
