@@ -14,6 +14,7 @@ public class Medicine {
     public Medicine(String name, double price, String manufacturer,  int quantity, boolean prescriptionRequired) {
         this.name = name;
         this.price = price;
+        this.manufacturer = manufacturer;
         this.quantity = quantity;
         this.prescriptionRequired = prescriptionRequired;
     }
