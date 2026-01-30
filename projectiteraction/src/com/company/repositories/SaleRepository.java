@@ -18,12 +18,13 @@ public class SaleRepository implements ISaleRepository {
     @Override
     public boolean createSale(Sale s) {
         try (Connection con = db.getConnection()) {
-            String sql = "INSERT INTO sales(medicine_id, quantity, sale_date) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO sales(medicine_id, quantity, total_price, sale_date) VALUES (?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, s.getMedicineId());
             st.setInt(2, s.getQuantity());
-            st.setDate(3, java.sql.Date.valueOf(s.getSaleDate()));
-            st.execute();
+            st.setDouble(3, s.getTotalPrice());
+            st.setDate(4, java.sql.Date.valueOf(s.getSaleDate()));
+            st.executeUpdate();
             return true;
         } catch (SQLException e) {
             System.out.println("SQL error: " + e.getMessage());
