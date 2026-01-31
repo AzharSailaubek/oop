@@ -21,7 +21,7 @@ public class PharmacyController implements IPharmacyController  {
     @Override
     public String addMedicine(String name, double price, String manufacturer, int quantity, boolean isPrescription){
 
-        Medicine medicine = new Medicine(name, price, manufacturer, quantity, isPrescription);
+        Medicine medicine = new Medicine(name, price, manufacturer, quantity, isPrescription, "General");
         boolean created = medicineRepo.createMedicine(medicine);
 
         return created ? "Medicine added successfully!" : "Failed to add medicine!";

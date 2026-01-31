@@ -18,13 +18,14 @@ public class MedicineRepository implements IMedicineRepository {
     @Override
     public boolean createMedicine(Medicine m) {
         try (Connection con = db.getConnection()) {
-            String sql = "INSERT INTO medicines(name, price, manufacturer, quantity, prescription_required) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO medicines(name, price, manufacturer, quantity, prescription_required, category) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, m.getName());
             st.setDouble(2, m.getPrice());
             st.setString(3, m.getManufacturer());
             st.setInt(4, m.getQuantity());
             st.setBoolean(5, m.isPrescriptionRequired());
+            st.setString(6, m.getCategory());
             st.execute();
             return true;
         } catch (SQLException e) {
@@ -36,7 +37,7 @@ public class MedicineRepository implements IMedicineRepository {
     @Override
     public Medicine getMedicine(int id) {
         try (Connection con = db.getConnection()) {
-            String sql = "SELECT id,name,price,manufacturer,quantity,prescription_required FROM medicines WHERE id=?";
+            String sql = "SELECT id, name, price, manufacturer, quantity, prescription_required, category FROM medicines WHERE id=?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
@@ -47,7 +48,8 @@ public class MedicineRepository implements IMedicineRepository {
                         rs.getDouble("price"),
                         rs.getString("manufacturer"),
                         rs.getInt("quantity"),
-                        rs.getBoolean("prescription_required")
+                        rs.getBoolean("prescription_required"), // ДОБАВЛЕНА ЗАПЯТАЯ
+                        rs.getString("category")
                 );
             }
         } catch (SQLException e) {
@@ -59,7 +61,7 @@ public class MedicineRepository implements IMedicineRepository {
     @Override
     public Medicine getMedicineByName(String name) {
         try (Connection con = db.getConnection()) {
-            String sql = "SELECT id,name,price,manufacturer,quantity,prescription_required FROM medicines WHERE name=?";
+            String sql = "SELECT id, name, price, manufacturer, quantity, prescription_required, category FROM medicines WHERE name=?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
@@ -70,7 +72,8 @@ public class MedicineRepository implements IMedicineRepository {
                         rs.getDouble("price"),
                         rs.getString("manufacturer"),
                         rs.getInt("quantity"),
-                        rs.getBoolean("prescription_required")
+                        rs.getBoolean("prescription_required"), // ДОБАВЛЕНА ЗАПЯТАЯ
+                        rs.getString("category")
                 );
             }
         } catch (SQLException e) {
@@ -83,7 +86,7 @@ public class MedicineRepository implements IMedicineRepository {
     public List<Medicine> getAllMedicines() {
         List<Medicine> list = new ArrayList<>();
         try (Connection con = db.getConnection()) {
-            String sql = "SELECT id,name,price,manufacturer,quantity,prescription_required FROM medicines";
+            String sql = "SELECT id, name, price, manufacturer, quantity, prescription_required, category FROM medicines";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
@@ -93,7 +96,8 @@ public class MedicineRepository implements IMedicineRepository {
                         rs.getDouble("price"),
                         rs.getString("manufacturer"),
                         rs.getInt("quantity"),
-                        rs.getBoolean("prescription_required")
+                        rs.getBoolean("prescription_required"), // ДОБАВЛЕНА ЗАПЯТАЯ
+                        rs.getString("category")
                 ));
             }
         } catch (SQLException e) {

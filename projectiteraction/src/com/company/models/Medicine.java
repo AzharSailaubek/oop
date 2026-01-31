@@ -7,19 +7,21 @@ public class Medicine {
     private String manufacturer;
     private int quantity;
     private boolean prescriptionRequired;
+    private String category;
 
     public Medicine() {
     }
 
-    public Medicine(String name, double price, String manufacturer,  int quantity, boolean prescriptionRequired) {
+    public Medicine(String name, double price, String manufacturer,  int quantity, boolean prescriptionRequired, String category) {
         this.name = name;
         this.price = price;
         this.manufacturer = manufacturer;
         this.quantity = quantity;
         this.prescriptionRequired = prescriptionRequired;
+        this.category = category;
     }
-    public Medicine(int id, String name, double price,String manufacturer, int quantity, boolean prescriptionRequired) {
-        this(name, price,manufacturer, quantity, prescriptionRequired);
+    public Medicine(int id, String name, double price, String manufacturer, int quantity, boolean prescriptionRequired, String category) {
+        this(name, price,manufacturer, quantity, prescriptionRequired, category);
         this.id = id;
     }
 
@@ -31,9 +33,7 @@ public class Medicine {
         return name;
     }
 
-    public double getPrice() {
-        return price;
-    }
+    public double getPrice() { return price; }
 
     public String getManufacturer() { return manufacturer; }
 
@@ -45,16 +45,20 @@ public class Medicine {
         return prescriptionRequired;
     }
 
+    public String getCategory() { return category; }
+
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setPrice(double price) { this.price = price; }
     public void setManufacturer(String manufacturer) { this.manufacturer = manufacturer; }
     public void setQuantity(int quantity) {this.quantity = quantity;}
     public void setPrescriptionRequired(boolean prescriptionRequired) { this.prescriptionRequired = prescriptionRequired; }
+    public void setCategory(String category) { this.category = category; }
 
     @Override
     public String toString() {
         return id + " | " + name +
+                " [" + category + "]" +
                 " | price: " + price +
                 " | qty: " + quantity +
                 " | prescription: " +
