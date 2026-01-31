@@ -12,10 +12,10 @@ import com.company.repositories.interfaces.ISaleRepository;
 public class Main {
     public static void main(String[] args) {
         IDB db = new PostgresDB(
-                "jdbc:postgresql://localhost:5433",
-                "postgres",
-                "0000",
-                "pharmacy"
+                System.getenv("DB_URL"),
+                System.getenv("DB_USER"),
+                System.getenv("DB_PASSWORD"),
+                System.getenv("DB_NAME")
         );
 
         MedicineRepository medRepo = new MedicineRepository(db);
