@@ -12,7 +12,7 @@ import com.company.repositories.interfaces.ISaleRepository;
 public class Main {
     public static void main(String[] args) {
         IDB db = new PostgresDB(
-                "jdbc:postgresql://localhost:5432",
+                "jdbc:postgresql://localhost:5433",
                 "postgres",
                 "0000",
                 "pharmacy"
