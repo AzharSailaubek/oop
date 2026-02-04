@@ -4,9 +4,9 @@ import com.company.data.interfaces.IDB;
 import com.company.models.Sale;
 import com.company.repositories.interfaces.ISaleRepository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaleRepository implements ISaleRepository {
     private final IDB db;
@@ -30,5 +30,29 @@ public class SaleRepository implements ISaleRepository {
             System.out.println("SQL error: " + e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<String> getDetailedSalesHistory() {
+        List<String> history = new ArrayList<>();
+        String sql = "SELECT s.id, m.name, s.quantity, s.total_price " +
+                "FROM sales s " +
+                "JOIN medicines m ON s.medicine_id = m.id";
+
+        try (Connection con = db.getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                String record = "Sale #" + rs.getInt("id") +
+                        " | Medicine: " + rs.getString("name") +
+                        " | Qty: " + rs.getInt("quantity") +
+                        " | Total price: " + rs.getDouble("total_price");
+                history.add(record);
+            }
+        } catch (SQLException e) {
+            System.out.println("JOIN Error: " + e.getMessage());
+        }
+        return history;
     }
 }

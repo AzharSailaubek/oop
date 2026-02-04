@@ -57,4 +57,16 @@ public class PharmacyController implements IPharmacyController  {
 
         return "Sold " + medicine.getName() + " | Total price: " + total;
     }
+
+    @Override
+    public String getSalesHistory() {
+        List<String> history = saleRepo.getDetailedSalesHistory();
+        if (history.isEmpty()) return "No sales history found.";
+
+        StringBuilder sb = new StringBuilder("--- SALES HISTORY (JOIN REPORT) ---\n");
+        for (String record : history) {
+            sb.append(record).append("\n");
+        }
+        return sb.toString();
+    }
 }

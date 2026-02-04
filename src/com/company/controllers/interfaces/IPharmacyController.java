@@ -8,4 +8,7 @@ public interface IPharmacyController {
     String showAllMedicines();
 
     String sellMedicine(String medicineName, int quantity, boolean hasPrescription);
+
+    String getSalesHistory();
+
 }
