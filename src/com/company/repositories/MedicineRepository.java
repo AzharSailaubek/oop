@@ -105,7 +105,7 @@ public class MedicineRepository implements IMedicineRepository {
         }
     }
 
-    // РЕАЛИЗАЦИЯ НОВОГО МЕТОДА ДЛЯ КАТЕГОРИЙ
+
     @Override
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
@@ -127,7 +127,7 @@ public class MedicineRepository implements IMedicineRepository {
         return categories;
     }
 
-    // Вспомогательный метод, чтобы не дублировать код создания объекта Medicine
+
     private Medicine mapResultSetToMedicine(ResultSet rs) throws SQLException {
         Medicine med = new Medicine(
                 rs.getInt("id"),

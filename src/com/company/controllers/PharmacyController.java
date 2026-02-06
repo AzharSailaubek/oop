@@ -21,19 +21,16 @@ public class PharmacyController implements IPharmacyController {
 
     @Override
     public String addMedicine(String name, double price, String manufacturer, int quantity, boolean isPrescription, int userRole) {
-        // 1. Role Management (Защита на уровне контроллера)
-        if (userRole != 1) { // Допустим, 1 - это Admin
+
+        if (userRole != 1) {
             return "Access Denied: Only admins can add new medicines.";
         }
 
         try {
-            // 2. Data Validation (Валидация данных)
             if (name == null || name.trim().isEmpty()) return "Error: Name cannot be empty!";
             if (price <= 0) return "Error: Price must be positive!";
             if (quantity < 0) return "Error: Quantity cannot be negative!";
 
-            // 3. Application of Design Patterns (Factory)
-            // Мы не пишем new Medicine(...), а используем фабрику
             Medicine medicine = MedicineFactory.createMedicine(name, price, manufacturer, quantity, isPrescription, 1);
 
             boolean created = medicineRepo.createMedicine(medicine);
@@ -45,7 +42,6 @@ public class PharmacyController implements IPharmacyController {
 
     @Override
     public String showAllMedicines() {
-        // Здесь используется JOIN внутри репозитория (мы это уже настроили)
         List<Medicine> list = medicineRepo.getAllMedicines();
 
         if (list.isEmpty()) return "The pharmacy inventory is empty.";
@@ -59,21 +55,17 @@ public class PharmacyController implements IPharmacyController {
 
     @Override
     public String sellMedicine(String medicineName, int quantity, boolean hasPrescription) {
-        // Валидация ввода
         if (quantity <= 0) return "Error: Selling quantity must be greater than zero!";
 
         Medicine medicine = medicineRepo.getMedicineByName(medicineName);
         if (medicine == null) return "Error: Medicine '" + medicineName + "' not found!";
 
-        // Бизнес-логика: проверка рецепта
         if (medicine.isPrescriptionRequired() && !hasPrescription)
             return "Transaction Denied: This medicine requires a prescription!";
 
-        // Проверка наличия
         if (medicine.getQuantity() < quantity)
             return "Error: Not enough stock. Available: " + medicine.getQuantity();
 
-        // Обновление данных
         boolean updated = medicineRepo.updateQuantity(medicine.getId(), medicine.getQuantity() - quantity);
 
         if (updated) {
@@ -89,8 +81,6 @@ public class PharmacyController implements IPharmacyController {
     public String getLowStockMedicines() {
         List<Medicine> allMed = medicineRepo.getAllMedicines();
 
-        // Application of Lambda expressions
-        // Фильтруем список: оставляем только те, где остаток меньше 5
         List<Medicine> lowStock = allMed.stream()
                 .filter(m -> m.getQuantity() < 5)
                 .toList();
@@ -100,7 +90,7 @@ public class PharmacyController implements IPharmacyController {
         }
 
         StringBuilder sb = new StringBuilder("--- LOW STOCK ALERT ---\n");
-        // Еще одна лямбда для вывода названий
+
         lowStock.forEach(m -> sb.append(String.format("(!) %-15s | Left: %d\n", m.getName(), m.getQuantity())));
 
         return sb.toString();
@@ -108,7 +98,7 @@ public class PharmacyController implements IPharmacyController {
 
     @Override
     public String getSalesHistory() {
-        // Здесь используется JOIN (Sales + Medicines) внутри репозитория
+
         List<String> history = saleRepo.getDetailedSalesHistory();
 
         if (history.isEmpty()) return "No sales have been recorded yet.";

@@ -14,7 +14,7 @@ public class PostgresDB implements IDB {
     private final String password;
     private final String dbName;
 
-    // Приватный конструктор
+
     private PostgresDB(String host, String username, String password, String dbName) {
         this.host = host;
         this.username = username;
@@ -22,7 +22,7 @@ public class PostgresDB implements IDB {
         this.dbName = dbName;
     }
 
-    // Метод для получения единственного экземпляра (Singleton)
+
     public static synchronized PostgresDB getInstance(String host, String username, String password, String dbName) {
         if (instance == null) {
             instance = new PostgresDB(host, username, password, dbName);

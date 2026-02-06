@@ -13,7 +13,7 @@ public class Medicine {
     public Medicine() {
     }
 
-    // Конструктор для создания нового лекарства (без ID, так как его присвоит БД)
+
     public Medicine(String name, double price, String manufacturer, int quantity, boolean prescriptionRequired, int categoryId) {
         this.name = name;
         this.price = price;
