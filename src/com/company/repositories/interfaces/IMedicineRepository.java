@@ -1,6 +1,7 @@
 package com.company.repositories.interfaces;
 
 import com.company.models.Medicine;
+import com.company.models.Category;
 import java.util.List;
 
 public interface IMedicineRepository {
@@ -11,6 +12,8 @@ public interface IMedicineRepository {
     Medicine getMedicineByName(String name);
 
     List<Medicine> getAllMedicines();
+
+    List<Category> getAllCategories();
 
     boolean updateQuantity(int id, int quantity);
 }

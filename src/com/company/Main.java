@@ -11,7 +11,7 @@ import com.company.repositories.interfaces.ISaleRepository;
 
 public class Main {
     public static void main(String[] args) {
-        IDB db = new PostgresDB(
+        IDB db = PostgresDB.getInstance(
                 System.getenv("DB_URL"),
                 System.getenv("DB_USER"),
                 System.getenv("DB_PASSWORD"),

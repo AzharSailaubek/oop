@@ -15,19 +15,25 @@ public class MyApplication {
 
     public void start() {
         while (true) {
-            System.out.println("\n=== PHARMACY MANAGEMENT SYSTEM ===");
-            System.out.println("Select your role:");
-            System.out.println("1. Admin");
-            System.out.println("2. Manager");
-            System.out.println("3. Pharmacist (Staff)");
-            System.out.println("4. Customer");
-            System.out.println("0. Exit");
-            System.out.print("Choice: ");
+            try { // Начало блока защиты
+                System.out.println("\n=== PHARMACY MANAGEMENT SYSTEM ===");
+                System.out.println("Select your role:");
+                System.out.println("1. Admin");
+                System.out.println("2. Manager");
+                System.out.println("3. Pharmacist");
+                System.out.println("4. Customer");
+                System.out.println("0. Exit");
+                System.out.print("Choice: ");
 
-            int role = scanner.nextInt();
-            if (role == 0) break;
+                int role = scanner.nextInt();
+                if (role == 0) break;
 
-            handleLogin(role);
+                handleLogin(role);
+
+            } catch (Exception e) {
+                System.out.println("Error: Invalid input format. Please use numbers where required.");
+                scanner.nextLine();
+            }
         }
     }
 
@@ -42,7 +48,7 @@ public class MyApplication {
 
         switch (role) {
             case 1 -> {
-                if (password.equals("admin123")) adminMenu();
+                if (password.equals("admin123")) adminMenu(role);
                 else System.out.println("Wrong admin password!");
             }
             case 2 -> {
@@ -57,14 +63,15 @@ public class MyApplication {
         }
     }
 
-    private void adminMenu() {
+    private void adminMenu(int role) {
         while (true) {
             System.out.println("\n[ADMIN MENU]");
-            System.out.println("1. Add Medicine\n2. Show All Medicines\n3. View Sales History (JOIN Report)\n0. Logout");
+            System.out.println("1. Add Medicine\n2. Show All Medicines\n3. View Sales History\n4. Show Low Stock\n0. Logout");
             int choice = scanner.nextInt();
-            if (choice == 1) addMedicineMenu();
+            if (choice == 1) addMedicineMenu(role);
             else if (choice == 2) System.out.println(controller.showAllMedicines());
             else if (choice == 3) System.out.println(controller.getSalesHistory());
+            else if (choice == 4) System.out.println(controller.getLowStockMedicines());
             else if (choice == 0) break;
         }
     }
@@ -72,10 +79,13 @@ public class MyApplication {
     private void managerMenu() {
         while (true) {
             System.out.println("\n[MANAGER MENU]");
-            System.out.println("1. Show Inventory\n2. View Sales History\n0. Logout");
+            // Добавили 3 пункт
+            System.out.println("1. Show Inventory\n2. View Sales History\n3. Show Low Stock1\n0. Logout");
             int choice = scanner.nextInt();
             if (choice == 1) System.out.println(controller.showAllMedicines());
             else if (choice == 2) System.out.println(controller.getSalesHistory());
+                // Обработка 3 пункта
+            else if (choice == 3) System.out.println(controller.getLowStockMedicines());
             else if (choice == 0) break;
         }
     }
@@ -101,28 +111,31 @@ public class MyApplication {
         }
     }
 
-    private void addMedicineMenu() {
-        System.out.print("Name: ");
-        String name = scanner.next();
+    private void addMedicineMenu(int userRole) {
+        scanner.nextLine();
+
+        System.out.print("Name (can include spaces): ");
+        String name = scanner.nextLine();
 
         System.out.print("Price: ");
         double price = scanner.nextDouble();
+        scanner.nextLine();
 
         System.out.print("Manufacturer: ");
-        String manufacturer = scanner.next();
+        String manufacturer = scanner.nextLine();
 
         System.out.print("Quantity: ");
         int quantity = scanner.nextInt();
 
-        System.out.print("Category (e.g., Antibiotics): ");
-        String category = scanner.next();
+        System.out.print("Category ID (1 - General, 2 - Painkillers): ");
+        int categoryId = scanner.nextInt();
 
         System.out.print("Requires prescription? (yes/no): ");
-        boolean prescription =
-                scanner.next().equalsIgnoreCase("yes");
+        boolean prescription = scanner.next().equalsIgnoreCase("yes");
 
+        // 2. Теперь вызываем контроллер со всеми 6-ю параметрами
         System.out.println(
-                controller.addMedicine(name, price, manufacturer, quantity, prescription)
+                controller.addMedicine(name, price, manufacturer, quantity, prescription, userRole)
         );
     }
 

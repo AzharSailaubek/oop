@@ -1,6 +1,7 @@
 package com.company.repositories;
 
 import com.company.data.interfaces.IDB;
+import com.company.models.Category;
 import com.company.models.Medicine;
 import com.company.repositories.interfaces.IMedicineRepository;
 
@@ -18,18 +19,18 @@ public class MedicineRepository implements IMedicineRepository {
     @Override
     public boolean createMedicine(Medicine m) {
         try (Connection con = db.getConnection()) {
-            String sql = "INSERT INTO medicines(name, price, manufacturer, quantity, prescription_required, category) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO medicines(name, price, manufacturer, quantity, prescription_required, category_id) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, m.getName());
             st.setDouble(2, m.getPrice());
             st.setString(3, m.getManufacturer());
             st.setInt(4, m.getQuantity());
             st.setBoolean(5, m.isPrescriptionRequired());
-            st.setString(6, m.getCategory());
+            st.setInt(6, m.getCategoryId());
             st.execute();
             return true;
         } catch (SQLException e) {
-            System.out.println("SQL error: " + e.getMessage());
+            System.out.println("SQL error (createMedicine): " + e.getMessage());
             return false;
         }
     }
@@ -37,23 +38,17 @@ public class MedicineRepository implements IMedicineRepository {
     @Override
     public Medicine getMedicine(int id) {
         try (Connection con = db.getConnection()) {
-            String sql = "SELECT id, name, price, manufacturer, quantity, prescription_required, category FROM medicines WHERE id=?";
+            // Использование JOIN для получения названия категории
+            String sql = "SELECT m.*, c.name AS category_name FROM medicines m " +
+                    "JOIN categories c ON m.category_id::int = c.id";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new Medicine(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getString("manufacturer"),
-                        rs.getInt("quantity"),
-                        rs.getBoolean("prescription_required"), // ДОБАВЛЕНА ЗАПЯТАЯ
-                        rs.getString("category")
-                );
+                return mapResultSetToMedicine(rs);
             }
         } catch (SQLException e) {
-            System.out.println("SQL error: " + e.getMessage());
+            System.out.println("SQL error (getMedicine): " + e.getMessage());
         }
         return null;
     }
@@ -61,23 +56,16 @@ public class MedicineRepository implements IMedicineRepository {
     @Override
     public Medicine getMedicineByName(String name) {
         try (Connection con = db.getConnection()) {
-            String sql = "SELECT id, name, price, manufacturer, quantity, prescription_required, category FROM medicines WHERE name=?";
+            String sql = "SELECT m.*, c.name AS category_name FROM medicines m " +
+                    "JOIN categories c ON m.category_id::int = c.id";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new Medicine(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getString("manufacturer"),
-                        rs.getInt("quantity"),
-                        rs.getBoolean("prescription_required"), // ДОБАВЛЕНА ЗАПЯТАЯ
-                        rs.getString("category")
-                );
+                return mapResultSetToMedicine(rs);
             }
         } catch (SQLException e) {
-            System.out.println("SQL error: " + e.getMessage());
+            System.out.println("SQL error (getMedicineByName): " + e.getMessage());
         }
         return null;
     }
@@ -85,23 +73,19 @@ public class MedicineRepository implements IMedicineRepository {
     @Override
     public List<Medicine> getAllMedicines() {
         List<Medicine> list = new ArrayList<>();
-        try (Connection con = db.getConnection()) {
-            String sql = "SELECT id, name, price, manufacturer, quantity, prescription_required, category FROM medicines";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+        // JOIN между таблицами для выполнения требований задания
+        String sql = "SELECT m.*, c.name AS category_name FROM medicines m " +
+                "JOIN categories c ON m.category_id::int = c.id";
+
+        try (Connection con = db.getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
             while (rs.next()) {
-                list.add(new Medicine(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getString("manufacturer"),
-                        rs.getInt("quantity"),
-                        rs.getBoolean("prescription_required"), // ДОБАВЛЕНА ЗАПЯТАЯ
-                        rs.getString("category")
-                ));
+                list.add(mapResultSetToMedicine(rs));
             }
         } catch (SQLException e) {
-            System.out.println("SQL error: " + e.getMessage());
+            System.out.println("SQL error (getAllMedicines): " + e.getMessage());
         }
         return list;
     }
@@ -116,8 +100,45 @@ public class MedicineRepository implements IMedicineRepository {
             st.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("SQL error: " + e.getMessage());
+            System.out.println("SQL error (updateQuantity): " + e.getMessage());
             return false;
         }
+    }
+
+    // РЕАЛИЗАЦИЯ НОВОГО МЕТОДА ДЛЯ КАТЕГОРИЙ
+    @Override
+    public List<Category> getAllCategories() {
+        List<Category> categories = new ArrayList<>();
+        String sql = "SELECT id, name FROM categories";
+
+        try (Connection con = db.getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                categories.add(new Category(
+                        rs.getInt("id"),
+                        rs.getString("name")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error (getAllCategories): " + e.getMessage());
+        }
+        return categories;
+    }
+
+    // Вспомогательный метод, чтобы не дублировать код создания объекта Medicine
+    private Medicine mapResultSetToMedicine(ResultSet rs) throws SQLException {
+        Medicine med = new Medicine(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getDouble("price"),
+                rs.getString("manufacturer"),
+                rs.getInt("quantity"),
+                rs.getBoolean("prescription_required"),
+                rs.getInt("category_id")
+        );
+        med.setCategoryName(rs.getString("category_name"));
+        return med;
     }
 }
