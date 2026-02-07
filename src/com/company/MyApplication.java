@@ -71,20 +71,23 @@ public class MyApplication {
 
     private void adminMenu(int role) {
         while (true) {
-
-            System.out.println("\n[ADMIN MENU]");
-            System.out.println("1. Add Medicine\n2. Show All Medicines\n3. View Sales History\n4. Show Low Stock\n0. Logout");
+            System.out.println("\n[ADMIN MENU - System Control]");
+            System.out.println("1. Add New Medicine");
+            System.out.println("2. Archive The Medicine"); // Новая функция
+            System.out.println("3. Show All Medicines");
+            System.out.println("4. View Sales History");
+            System.out.println("0. Logout");
+            System.out.print("Choice: ");
 
             int choice = scanner.nextInt();
-
             if (choice == 1) addMedicineMenu(role);
-
-            else if (choice == 2) System.out.println(controller.showAllMedicines());
-
-            else if (choice == 3) System.out.println(controller.getSalesHistory());
-
-            else if (choice == 4) System.out.println(controller.getLowStockMedicines());
-
+            else if (choice == 2) {
+                System.out.print("Enter ID to DELETE: ");
+                int id = scanner.nextInt();
+                System.out.println(controller.removeMedicine(id, role));
+            }
+            else if (choice == 3) System.out.println(controller.showAllMedicines());
+            else if (choice == 4) System.out.println(controller.getSalesHistory());
             else if (choice == 0) break;
         }
     }
@@ -93,25 +96,23 @@ public class MyApplication {
         while (true) {
             System.out.println("\n[MANAGER MENU]");
             System.out.println("1. Inventory Report");
-            System.out.println("2. Change Medicine Price"); // Пункт 2 теперь работает
+            System.out.println("2. Change Medicine Price");
             System.out.println("3. Show Low Stock");
+            System.out.println("4. View Total Revenue"); // Новая кнопка!
             System.out.println("0. Logout");
             System.out.print("Choice: ");
 
             int choice = scanner.nextInt();
-            if (choice == 1) {
-                System.out.println(controller.showAllMedicines());
-            }
+            if (choice == 1) System.out.println(controller.showAllMedicines());
             else if (choice == 2) {
-                System.out.print("Enter Medicine ID: ");
+                System.out.print("Enter ID: ");
                 int id = scanner.nextInt();
-                System.out.print("Enter New Price: ");
-                double newPrice = scanner.nextDouble();
-                System.out.println(controller.updatePrice(id, newPrice));
+                System.out.print("New Price: ");
+                double price = scanner.nextDouble();
+                System.out.println(controller.updatePrice(id, price));
             }
-            else if (choice == 3) {
-                System.out.println(controller.getLowStockMedicines());
-            }
+            else if (choice == 3) System.out.println(controller.getLowStockMedicines());
+            else if (choice == 4) System.out.println(controller.getRevenueReport()); // Вызов отчета
             else if (choice == 0) break;
         }
     }

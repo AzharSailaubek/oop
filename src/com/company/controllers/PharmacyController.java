@@ -228,5 +228,17 @@ public class PharmacyController implements IPharmacyController {
 
         else return "Error: Could not update price.";
     }
+
+    public String removeMedicine(int id, int userRole) {
+        if (userRole != 1) return "Access Denied!";
+        boolean deleted = medicineRepo.deleteMedicine(id);
+        return deleted ? "Medicine moved to archive (deleted from inventory)!" : "Failed to delete.";
+    }
+
+    @Override
+    public String getRevenueReport() {
+        double total = saleRepo.getTotalRevenue();
+        return String.format("--- FINANCIAL REPORT ---\nTotal Revenue: %.2f KZT", total);
+    }
 }
 

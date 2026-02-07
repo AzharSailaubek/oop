@@ -14,4 +14,6 @@ public interface ISaleRepository {
 
     List<String> getDetailedSalesHistory();
 
+    double getTotalRevenue();
+
 }

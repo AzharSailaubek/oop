@@ -7,6 +7,7 @@ public interface IPharmacyController {
     String sellMedicine(String medicineName, int quantity, boolean hasPrescription);
     String getSalesHistory();
     String getLowStockMedicines();
-    // НОВОЕ:
     String updatePrice(int id, double price);
+    String removeMedicine(int id, int userRole);
+    String getRevenueReport();
 }

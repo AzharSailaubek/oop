@@ -115,8 +115,8 @@ public class MedicineRepository implements IMedicineRepository {
         try (Connection con = db.getConnection()) {
 
             String sql = "SELECT m.*, c.name AS category_name FROM medicines m " +
-
-                    "JOIN categories c ON m.category_id::int = c.id "+ "WHERE m.name = ?";
+                    "JOIN categories c ON m.category_id::int = c.id " +
+                    "WHERE m.name = ? AND m.is_active = true";
 
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -148,11 +148,10 @@ public class MedicineRepository implements IMedicineRepository {
 
         List<Medicine> list = new ArrayList<>();
 
-        // JOIN между таблицами для выполнения требований задания
 
         String sql = "SELECT m.*, c.name AS category_name FROM medicines m " +
-
-                "JOIN categories c ON m.category_id::int = c.id";
+                "JOIN categories c ON m.category_id::int = c.id " +
+                "WHERE m.is_active = true";
 
 
 
@@ -308,4 +307,16 @@ public class MedicineRepository implements IMedicineRepository {
 
     }
 
+    @Override
+    public boolean deleteMedicine(int id) {
+        String sql = "UPDATE medicines SET is_active = false WHERE id = ?";
+        try (Connection con = db.getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+            st.setInt(1, id);
+            return st.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+            return false;
+        }
+    }
 }

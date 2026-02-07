@@ -38,4 +38,6 @@ public interface IMedicineRepository {
 
     boolean updatePrice(int id, double price);
 
+    boolean deleteMedicine(int id);
+
 }

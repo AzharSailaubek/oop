@@ -112,4 +112,18 @@ public class SaleRepository implements ISaleRepository {
 
     }
 
+    @Override
+    public double getTotalRevenue() {
+        String sql = "SELECT SUM(total_price) FROM sales";
+        try (Connection con = db.getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getDouble(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Revenue error: " + e.getMessage());
+        }
+        return 0;
+    }
 }
