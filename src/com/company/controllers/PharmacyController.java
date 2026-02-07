@@ -1,19 +1,11 @@
 package com.company.controllers;
 
 import com.company.controllers.interfaces.IPharmacyController;
-
 import com.company.models.Medicine;
-
 import com.company.models.Sale;
-
 import com.company.repositories.interfaces.IMedicineRepository;
-
 import com.company.repositories.interfaces.ISaleRepository;
-
-import com.company.factories.MedicineFactory; // Импорт нашей фабрики
-
-
-
+import com.company.factories.MedicineFactory;
 import java.util.List;
 
 public class PharmacyController implements IPharmacyController {
