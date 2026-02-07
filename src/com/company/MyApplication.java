@@ -123,112 +123,57 @@ public class MyApplication {
         while (true) {
 
             System.out.println("\n[PHARMACIST MENU]");
-
             System.out.println("1. Show All Medicines\n2. Sell Medicine\n0. Logout");
 
             int choice = scanner.nextInt();
-
             if (choice == 1) System.out.println(controller.showAllMedicines());
-
             else if (choice == 2) sellMedicineMenu();
-
             else if (choice == 0) break;
-
         }
-
     }
-
 
     private void customerMenu() {
-
         while (true) {
-
             System.out.println("\n[CUSTOMER AREA]");
-
             System.out.println("1. View Available Medicines\n0. Exit to main menu");
-
             int choice = scanner.nextInt();
-
             if (choice == 1) System.out.println(controller.showAllMedicines());
-
             else if (choice == 0) break;
-
         }
-
     }
 
-
     private void addMedicineMenu(int userRole) {
-
         scanner.nextLine();
-
-
         System.out.print("Name (can include spaces): ");
-
         String name = scanner.nextLine();
-
-
         System.out.print("Price: ");
-
         double price = scanner.nextDouble();
-
         scanner.nextLine();
-
 
         System.out.print("Manufacturer: ");
-
         String manufacturer = scanner.nextLine();
-
-
         System.out.print("Quantity: ");
-
         int quantity = scanner.nextInt();
-
-
         System.out.print("Category ID (1 - General, 2 - Painkillers): ");
-
         int categoryId = scanner.nextInt();
-
-
         System.out.print("Requires prescription? (yes/no): ");
 
         boolean prescription = scanner.next().equalsIgnoreCase("yes");
-
-
-
         System.out.println(
-
                 controller.addMedicine(name, price, manufacturer, quantity, prescription, userRole)
-
         );
-
     }
 
-
     private void sellMedicineMenu() {
-
         System.out.print("Medicine name: ");
-
         String name = scanner.next();
-
-
         System.out.print("Quantity: ");
-
         int qty = scanner.nextInt();
-
-
         System.out.print("Do you have a prescription? (yes/no): ");
-
         boolean hasPrescription =
-
                 scanner.next().equalsIgnoreCase("yes");
-
-
         System.out.println(
-
                 controller.sellMedicine(name, qty, hasPrescription)
-
         );
-
     }
 }
