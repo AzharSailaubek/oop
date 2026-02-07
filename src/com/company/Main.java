@@ -23,6 +23,7 @@ public class Main {
         com.company.controllers.PharmacyController controller = new com.company.controllers.PharmacyController(medRepo, saleRepo);
 
         com.company.MyApplication app = new com.company.MyApplication(controller);
+
         app.start();
 
         db.close();
