@@ -154,7 +154,7 @@ public class MyApplication {
         String manufacturer = scanner.nextLine();
         System.out.print("Quantity: ");
         int quantity = scanner.nextInt();
-        System.out.print("Category ID (1 - General, 2 - Painkillers): ");
+        System.out.print("Category ID (1 - General, 2 - Painkillers, 3 - Vitamins, 4 - Antibiotics, 5 - Diabetes): ");
         int categoryId = scanner.nextInt();
         System.out.print("Requires prescription? (yes/no): ");
 
