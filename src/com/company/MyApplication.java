@@ -92,23 +92,28 @@ public class MyApplication {
     private void managerMenu() {
         while (true) {
             System.out.println("\n[MANAGER MENU]");
-
-            System.out.println("1. Inventory Report\n2. Change Medicine Price\n3. Show Low Stock1\n0. Logout");
+            System.out.println("1. Inventory Report");
+            System.out.println("2. Change Medicine Price"); // Пункт 2 теперь работает
+            System.out.println("3. Show Low Stock");
+            System.out.println("0. Logout");
+            System.out.print("Choice: ");
 
             int choice = scanner.nextInt();
-
-            if (choice == 1) System.out.println(controller.showAllMedicines());
-
-            else if (choice == 2) System.out.println(controller.getSalesHistory());
-
-                // Обработка 3 пункта
-
-            else if (choice == 3) System.out.println(controller.getLowStockMedicines());
-
+            if (choice == 1) {
+                System.out.println(controller.showAllMedicines());
+            }
+            else if (choice == 2) {
+                System.out.print("Enter Medicine ID: ");
+                int id = scanner.nextInt();
+                System.out.print("Enter New Price: ");
+                double newPrice = scanner.nextDouble();
+                System.out.println(controller.updatePrice(id, newPrice));
+            }
+            else if (choice == 3) {
+                System.out.println(controller.getLowStockMedicines());
+            }
             else if (choice == 0) break;
-
         }
-
     }
 
 
@@ -189,7 +194,6 @@ public class MyApplication {
         boolean prescription = scanner.next().equalsIgnoreCase("yes");
 
 
-        // 2. Теперь вызываем контроллер со всеми 6-ю параметрами
 
         System.out.println(
 

@@ -221,12 +221,12 @@ public class PharmacyController implements IPharmacyController {
     }
 
 
-
+    @Override
     public String updatePrice(int id, double price) {boolean updated = medicineRepo.updatePrice(id, price);
 
         if (updated) return "Success: Price updated!";
 
-        else return "Error: Could not update price.";}
-
+        else return "Error: Could not update price.";
+    }
 }
 
