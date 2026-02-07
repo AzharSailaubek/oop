@@ -73,7 +73,7 @@ public class MyApplication {
         while (true) {
             System.out.println("\n[ADMIN MENU - System Control]");
             System.out.println("1. Add New Medicine");
-            System.out.println("2. Archive The Medicine"); // Новая функция
+            System.out.println("2. Archive The Medicine");
             System.out.println("3. Show All Medicines");
             System.out.println("4. View Sales History");
             System.out.println("0. Logout");
@@ -98,7 +98,7 @@ public class MyApplication {
             System.out.println("1. Inventory Report");
             System.out.println("2. Change Medicine Price");
             System.out.println("3. Show Low Stock");
-            System.out.println("4. View Total Revenue"); // Новая кнопка!
+            System.out.println("4. View Total Revenue");
             System.out.println("0. Logout");
             System.out.print("Choice: ");
 
@@ -112,7 +112,7 @@ public class MyApplication {
                 System.out.println(controller.updatePrice(id, price));
             }
             else if (choice == 3) System.out.println(controller.getLowStockMedicines());
-            else if (choice == 4) System.out.println(controller.getRevenueReport()); // Вызов отчета
+            else if (choice == 4) System.out.println(controller.getRevenueReport());
             else if (choice == 0) break;
         }
     }
