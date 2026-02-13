@@ -1,13 +1,11 @@
 package com.company;
 
 import com.company.controllers.PharmacyController;
-import com.company.controllers.interfaces.IPharmacyController;
 import com.company.data.PostgresDB;
 import com.company.data.interfaces.IDB;
 import com.company.repositories.MedicineRepository;
 import com.company.repositories.SaleRepository;
-import com.company.repositories.interfaces.IMedicineRepository;
-import com.company.repositories.interfaces.ISaleRepository;
+import com.company.repositories.UserRepository;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,12 +18,13 @@ public class Main {
 
         MedicineRepository medRepo = new MedicineRepository(db);
         SaleRepository saleRepo = new SaleRepository(db);
-        com.company.controllers.PharmacyController controller = new com.company.controllers.PharmacyController(medRepo, saleRepo);
+        UserRepository userRepo = new UserRepository(db);
 
-        com.company.MyApplication app = new com.company.MyApplication(controller);
+        PharmacyController controller = new PharmacyController(medRepo, saleRepo);
+
+        MyApplication app = new MyApplication(controller, userRepo);
 
         app.start();
-
         db.close();
     }
 }

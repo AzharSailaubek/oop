@@ -1,19 +1,11 @@
 package com.company.controllers;
 
 import com.company.controllers.interfaces.IPharmacyController;
-
 import com.company.models.Medicine;
-
 import com.company.models.Sale;
-
 import com.company.repositories.interfaces.IMedicineRepository;
-
 import com.company.repositories.interfaces.ISaleRepository;
-
-import com.company.factories.MedicineFactory; // Импорт нашей фабрики
-
-
-
+import com.company.factories.MedicineFactory;
 import java.util.List;
 
 public class PharmacyController implements IPharmacyController {
@@ -23,6 +15,7 @@ public class PharmacyController implements IPharmacyController {
         this.medicineRepo = medicineRepo;
         this.saleRepo = saleRepo;
     }
+
     @Override
     public String addMedicine(String name, double price, String manufacturer, int quantity, boolean isPrescription, int userRole) {
         if (userRole != 1) {
@@ -52,22 +45,27 @@ public class PharmacyController implements IPharmacyController {
     }
 
     @Override
-    public String sellMedicine(String medicineName, int quantity, boolean hasPrescription) {
-        if (quantity <= 0) return "Error: Selling quantity must be greater than zero!";
-        Medicine medicine = medicineRepo.getMedicineByName(medicineName);
-        if (medicine == null) return "Error: Medicine '" + medicineName + "' not found!";
+    public String sellMedicine(int medicineId, int quantity, boolean hasPrescription) {
+        if (quantity <= 0) return "Error: Quantity must be positive!";
+
+        Medicine medicine = medicineRepo.getMedicine(medicineId);
+
+        if (medicine == null) return "Error: Medicine with ID " + medicineId + " not found!";
+
         if (medicine.isPrescriptionRequired() && !hasPrescription)
-            return "Transaction Denied: This medicine requires a prescription!";
+            return "Transaction Denied: Prescription required!";
+
         if (medicine.getQuantity() < quantity)
             return "Error: Not enough stock. Available: " + medicine.getQuantity();
 
         boolean updated = medicineRepo.updateQuantity(medicine.getId(), medicine.getQuantity() - quantity);
+
         if (updated) {
             double total = medicine.getPrice() * quantity;
             saleRepo.createSale(new Sale(medicine.getId(), quantity, total));
-            return "Success! Sold " + quantity + " units of " + medicine.getName() + ". Total: " + total;
+            return "Success! Sold " + medicine.getName() + ". Total: " + total;
         }
-        return "Error: Transaction failed during database update.";
+        return "Error: Database update failed.";
     }
 
     @Override
@@ -93,7 +91,6 @@ public class PharmacyController implements IPharmacyController {
         }
         return sb.toString();
     }
-
     @Override
     public String updatePrice(int id, double price) {boolean updated = medicineRepo.updatePrice(id, price);
         if (updated) return "Success: Price updated!";

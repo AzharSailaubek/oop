@@ -1,18 +1,11 @@
 package com.company.repositories;
+
 import com.company.data.interfaces.IDB;
-
 import com.company.models.Category;
-
 import com.company.models.Medicine;
-
 import com.company.repositories.interfaces.IMedicineRepository;
-
-
-
 import java.sql.*;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 public class MedicineRepository implements IMedicineRepository {
