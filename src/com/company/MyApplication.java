@@ -62,7 +62,7 @@ public class MyApplication {
                 default -> System.out.println("Role not recognized.");
             }
         } else {
-            System.out.println("\n[!] ACCESS DENIED: Invalid credentials or role mismatch.");
+            System.out.println("\nError: Invalid credentials or role mismatch.");
         }
     }
 
@@ -74,7 +74,7 @@ public class MyApplication {
             int choice = scanner.nextInt();
             if (choice == 1) addMedicineMenu(role);
             else if (choice == 2) {
-                System.out.print("Enter ID to DELETE: ");
+                System.out.print("Enter ID to Delete: ");
                 int id = scanner.nextInt();
                 System.out.println(controller.removeMedicine(id, role));
             }
@@ -135,7 +135,7 @@ public class MyApplication {
 
         System.out.print("Price: ");
         double price = scanner.nextDouble();
-        scanner.nextLine(); // Очистка буфера ПОСЛЕ ввода числа перед текстом
+        scanner.nextLine();
 
         System.out.print("Manufacturer: ");
         String manufacturer = scanner.nextLine();
