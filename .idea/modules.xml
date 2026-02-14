@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/projectiteraction.iml" filepath="$PROJECT_DIR$/projectiteraction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lecture5JDBCExample-master/projectiteraction.iml" filepath="$PROJECT_DIR$/Lecture5JDBCExample-master/projectiteraction.iml" />
     </modules>
   </component>
 </project>
